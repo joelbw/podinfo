@@ -1,0 +1,25 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: podinfo-chart
+  namespace: podinfo
+spec:
+  interval: 1m
+  url: https://github.com/joelbw/podinfo-chart
+  ref:
+    branch: main
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+Metadata:
+  name: podinfo
+  namespace: podinfo
+spec:
+  chart:
+    spec:
+      chart: podinfo
+      sourceRef:
+        kind: GitRepository
+        name: podinfo-chart
+      version: 6.6.2
+  interval: 1m0s
